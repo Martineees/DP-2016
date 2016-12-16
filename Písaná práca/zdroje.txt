@@ -1,0 +1,31 @@
+﻿[1] http://www.icg.tugraz.at/publications/pdf/ARForCartography
+
+[2] http://www.cs.unc.edu/~azuma/ARpresence.pdf
+
+[3] http://www.vrs.org.uk/virtual-reality/what-is-virtual-reality.html
+
+//[4] http://www.edb.utexas.edu/minliu/multimedia/VR%20Application.pdf
+
+[4] http://www.augment.com/blog/virtual-reality-vs-augmented-reality/
+
+[5]  MADDEN, Lester. Professional augmented reality browsers for smartphones:
+programming for Junaio, Layar, and Wikitude. Chichester, West Sussex: Wiley Pub. Inc.,
+2011. Programmer to programmer. ISBN 978-1-1199-9281-3
+//z práce http://is.muni.cz/th/383921/ff_b/FINAL_BC_PRACE_ONDREJ_STEJSKAL_PDF.pdf
+//kniha na linku https://books.google.sk/books?id=gRpH49rlVRsC&pg=SA1-PA23&hl=sk&source=gbs_selected_pages&cad=3#v=onepage&q=markerless&f=false
+
+
+[6] GEROIMENKO. Augmented Reality Technology and Art: The Analysis and Visualization
+of Evolving Conceptual Models. Proceeding IV '12 Proceedings of the 2012 16th
+International Conference on Information Visualisation [online]. 2012, 445-453, s. - [cit.
+2013-04-08]. ISSN 1550-6037. DOI: 10.1109/IV.2012.77. Dostupné z:
+http://dl.acm.org/citation.cfm?id=2359440
+//z práce http://is.muni.cz/th/383921/ff_b/FINAL_BC_PRACE_ONDREJ_STEJSKAL_PDF.pdf
+
+
+
+
+
+
+ine práce kde sú zdroje
+http://is.muni.cz/th/383921/ff_b/FINAL_BC_PRACE_ONDREJ_STEJSKAL_PDF.pdf
