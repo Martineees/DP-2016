@@ -175,21 +175,21 @@ public class CameraActivity extends Activity implements VuforiaApplicationContro
         if (objectTracker == null) {
             result = false;
             Log.d(TAG, "Failed to destroy the tracking data set because the ObjectTracker has not been initialized.");
-        }
+        } else {
+            if (dataSetUserDef != null) {
+                if (objectTracker.getActiveDataSet(0) != null && !objectTracker.deactivateDataSet(dataSetUserDef)) {
+                    Log.d(TAG, "Failed to destroy the tracking data set because the data set could not be deactivated.");
+                    result = false;
+                }
 
-        if (dataSetUserDef != null) {
-            if (objectTracker.getActiveDataSet() != null && !objectTracker.deactivateDataSet(dataSetUserDef)) {
-                Log.d(TAG, "Failed to destroy the tracking data set because the data set could not be deactivated.");
-                result = false;
+                if (!objectTracker.destroyDataSet(dataSetUserDef)) {
+                    Log.d(TAG, "Failed to destroy the tracking data set.");
+                    result = false;
+                }
+
+                Log.d(TAG, "Successfully destroyed the data set.");
+                dataSetUserDef = null;
             }
-
-            if (!objectTracker.destroyDataSet(dataSetUserDef)) {
-                Log.d(TAG, "Failed to destroy the tracking data set.");
-                result = false;
-            }
-
-            Log.d(TAG, "Successfully destroyed the data set.");
-            dataSetUserDef = null;
         }
 
         return result;

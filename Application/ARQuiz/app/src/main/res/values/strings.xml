@@ -15,4 +15,7 @@
     <string name="INIT_LICENSE_ERROR_UNKNOWN_ERROR">Failed to initialize Vuforia.</string>
     <string name="INIT_OBJECT_DATASET_NOT_FOUND_TITLE">Database not found</string>
     <string name="INIT_OBJECT_DATASET_NOT_FOUND">Please scan an object and load a database</string>
+
+    <string name="WIFI_PERMISSION">Wifi is disabled! Making it enabled.</string>
+    <string name="WIFI_GETTING_DATA">Getting wifi informations.</string>
 </resources>

@@ -16,7 +16,8 @@ public class MainActivity extends Activity {
     }
 
     public void openCamera(View v) {
-        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+        //Intent intent = new Intent(MainActivity.this, CameraActivity.class);
 
         startActivity(intent);
     }
