@@ -47,4 +47,28 @@ class AnswersDAO
 
         return null;
     }
+
+    private function getAnswers($questionId)
+    {
+        $stmt = $this->db->prepare("SELECT id,name,is_correct FROM answers WHERE question_id=?");
+        $stmt->bind_param("i", $questionId);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $name, $isCorrect);
+
+        $results = null;
+
+        if ($stmt->num_rows > 0) {
+
+            $results = new \ArrayObject();
+
+            while ($stmt->fetch()) {
+                $answer = new Answer($id, $name, $questionId, $isCorrect);
+
+                $results->append($answer);
+            }
+        }
+
+        return $results;
+    }
 }

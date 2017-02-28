@@ -50,7 +50,7 @@ public class LocationActivity extends Activity {
 
         pd = new ProgressDialog(this);
 
-        locationTextView = (TextView) findViewById(R.id.textView2);
+        locationTextView = (TextView) findViewById(R.id.location_status_bar);
 
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         locationReceiver = new LocationReceiver();
@@ -71,15 +71,16 @@ public class LocationActivity extends Activity {
         Helper.showProgressDialog(pd, getString(R.string.WIFI_GETTING_DATA));
     }
 
-    private void updateActualLocation(String locationJson) throws JSONException {
-        if(!locationJson.isEmpty()) {
-            JSONObject jsonObj = new JSONObject(locationJson);
+    private void onLocationSuccess(JSONObject response) throws JSONException {
+        locationTextView.setText(getString(R.string.STR_ACTUAL_POSITION_p, response.getString("block"),response.getInt("floor")));
+    }
 
-            if(jsonObj != null) {
-                locationTextView.setText("Block: " + jsonObj.getString("block") + " floor: " + jsonObj.getInt("floor"));
+    private void onLocationError(JSONObject response) throws JSONException {
+        locationTextView.setText(response.getString("error_msg"));
+    }
 
-            } else Log.e(TAG, "ERROR parse location json");
-        } else Log.e(TAG, "ERROR empty location string");
+    private void onLocationError() {
+        locationTextView.setText("No response from server");
     }
 
     private class LocationReceiver extends BroadcastReceiver {
@@ -106,10 +107,20 @@ public class LocationActivity extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                updateActualLocation(s);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(s != null && !s.isEmpty()) {
+                try {
+                    JSONObject response = Helper.string2JSON(s);
+                    if(!response.getBoolean("error"))
+                        onLocationSuccess(response);
+                    else
+                        onLocationError(response);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                onLocationError();
             }
 
             Helper.dismissProgressDialog(pd);
@@ -147,7 +158,8 @@ public class LocationActivity extends Activity {
                     Log.d(TAG, result);
 
                     return result;
-                }
+                } else
+                    return "";
 
             } catch (java.io.IOException e) {
                 e.printStackTrace();

@@ -9,19 +9,19 @@
 namespace entities;
 
 
-class Answer
+class Competition
 {
     private $id;
     private $name;
-    private $questionId;
-    private $isCorrect;
+    private $ownerId;
+    private $created;
 
-    function __construct($id, $name, $questionId, $isCorrect)
+    function __construct($id, $name, $ownerId, $created)
     {
         $this->id = $id;
         $this->name = $name;
-        $this->questionId = $questionId;
-        $this->isCorrect = $isCorrect;
+        $this->ownerId = $ownerId;
+        $this->created = $created;
     }
 
     public function getId()
@@ -34,13 +34,13 @@ class Answer
         return $this->name;
     }
 
-    public function getIsCorrect()
+    public function getOwnerId()
     {
-        return $this->isCorrect;
+        return $this->ownerId;
     }
 
-    public function getQuestionId()
+    public function getCreated()
     {
-        return $this->questionId;
+        return $this->created;
     }
 }

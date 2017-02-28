@@ -6,9 +6,9 @@
  * Time: 19:43
  */
 
-require_once ("dbConnect.php");
-require_once("entities/User.php");
-require_once ("dao/UsersDAO.php");
+require_once("../dbConnect.php");
+require_once("../entities/User.php");
+require_once("../dao/UsersDAO.php");
 
 use entities\User;
 use dao\UsersDAO;

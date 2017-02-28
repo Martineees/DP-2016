@@ -14,21 +14,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
         android:weightSum="1"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".4"
-            android:src="@drawable/logo_w"
-            android:layout_gravity="center_horizontal" />
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.6">
+            android:layout_height="0dp"
+            android:layout_weight="0.1">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_weight=".1"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <Button
+                    android:text="@string/STR_SIGN_IN"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_account_circle_white_24dp"
+                    android:id="@+id/loginBtn"
+                    android:background="@color/transparent"
+                    android:textColor="@color/colorWhite"
+                    android:onClick="login"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".4"
+                android:src="@drawable/logo_w"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerVertical="false"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
 
             <Button
                 android:text="@string/explore_btn"
@@ -39,15 +76,14 @@
                 android:layout_centerInParent="true"
                 android:background="@color/colorWhite"
                 android:drawableStart="@drawable/ic_explore_white_48dp"
-                android:paddingTop="18dp"
-                android:paddingBottom="18dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:drawablePadding="18dp"
                 android:textSize="24sp"
                 android:elevation="2dp"
                 android:onClick="openCamera"/>
         </RelativeLayout>
-
     </LinearLayout>
 </RelativeLayout>

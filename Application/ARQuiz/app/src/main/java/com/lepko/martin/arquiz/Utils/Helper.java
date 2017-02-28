@@ -109,4 +109,8 @@ public class Helper {
 
         return jsonArray.toString();
     }
+
+    public static JSONObject string2JSON(String jsonString) throws JSONException {
+        return new JSONObject(jsonString);
+    }
 }

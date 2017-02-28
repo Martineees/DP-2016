@@ -6,13 +6,13 @@
  * Time: 21:00
  */
 
-require_once ("dbConnect.php");
-require_once ("dao/LocationDAO.php");
-require_once ("dao/MeasurementDAO.php");
-require_once ("dao/WifiDAO.php");
-require_once ("entities/Location.php");
-require_once ("entities/Measurement.php");
-require_once ("entities/Wifi.php");
+require_once("../dbConnect.php");
+require_once("../dao/LocationDAO.php");
+require_once("../dao/MeasurementDAO.php");
+require_once("../dao/WifiDAO.php");
+require_once("../entities/Location.php");
+require_once("../entities/Measurement.php");
+require_once("../entities/Wifi.php");
 
 use dao\LocationDAO;
 use dao\MeasurementDAO;

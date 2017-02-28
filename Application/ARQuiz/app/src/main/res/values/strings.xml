@@ -18,4 +18,13 @@
 
     <string name="WIFI_PERMISSION">Wifi is disabled! Making it enabled.</string>
     <string name="WIFI_GETTING_DATA">Getting wifi informations.</string>
+
+    <string name="STR_EMAIL">Email</string>
+    <string name="STR_PASSWORD">Password</string>
+    <string name="STR_LOGIN">LOGIN</string>
+    <string name="STR_SIGN_IN">Sign in</string>
+    <string name="STR_LOGOUT">LOGOUT</string>
+    <string name="STR_QUESTIONS_LIST">Questions List</string>
+    <string name="STR_ACTUAL_POSITION">Actual position:</string>
+    <string name="STR_ACTUAL_POSITION_p">Actual position: %1$s%2$i</string>
 </resources>

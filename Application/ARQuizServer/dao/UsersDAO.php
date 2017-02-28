@@ -64,4 +64,21 @@ class UsersDAO
 
         return null;
     }
+
+    public function getUserById($id) {
+        $stmt = $this->db->prepare("SELECT name,password_hash,is_admin  FROM users WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($name,$password_hash,$is_admin);
+        $stmt -> fetch();
+
+        $num_rows = $stmt->num_rows;
+
+        if($num_rows == 1) {
+            return new User($id, $name, $password_hash, $is_admin);
+        }
+
+        return null;
+    }
 }

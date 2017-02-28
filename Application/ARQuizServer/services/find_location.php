@@ -7,13 +7,13 @@
  * Time: 12:44
  */
 
-require_once ("dbConnect.php");
-require_once ("dao/LocationDAO.php");
-require_once ("dao/MeasurementDAO.php");
-require_once ("dao/WifiDAO.php");
-require_once ("entities/Location.php");
-require_once ("entities/Measurement.php");
-require_once ("entities/Wifi.php");
+require_once("../dbConnect.php");
+require_once("../dao/LocationDAO.php");
+require_once("../dao/MeasurementDAO.php");
+require_once("../dao/WifiDAO.php");
+require_once("../entities/Location.php");
+require_once("../entities/Measurement.php");
+require_once("../entities/Wifi.php");
 
 use dao\LocationDAO;
 use dao\MeasurementDAO;
@@ -29,20 +29,25 @@ $locationDAO = new LocationDAO($db);
 $wifiDAO = new WifiDAO($db);
 $measurementDAO = new MeasurementDAO($db);
 
+$response = array("error" => TRUE);
+
 if(isset($_POST['scanResults'])){
     $location = getActualLocation($_POST['scanResults']);
 
    // echo var_dump($location);
 
-    $result = "";
-
     if($location != null) {
-        $locationObj = array("block" => $location->getBlock(), "floor" => $location->getFloor());
-        $result = json_encode($locationObj);
+        $response["error"] = FALSE;
+        $response["block"] = $location->getBlock();
+        $response["floor"] = $location->getFloor();
+    } else {
+        $response["error_msg"] = "location not found";
     }
-
-    echo $result;
+} else {
+    $response["error_msg"] = "Missing scanResults param";
 }
+
+echo json_encode($response);
 
 function getActualLocation($scanResultsJSON)
 {

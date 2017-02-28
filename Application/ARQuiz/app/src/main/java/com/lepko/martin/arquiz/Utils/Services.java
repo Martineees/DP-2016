@@ -6,8 +6,12 @@ package com.lepko.martin.arquiz.Utils;
 
 public class Services {
 
-    private static final String SERVER_ADDRESS = "http://192.168.1.101/";
-    private static final String FIND_LOCATION_SERVICE = "ARQuizServer/find_location.php";
+    //private static final String SERVER_ADDRESS = "http://192.168.1.101/";
+    private static final String SERVER_ADDRESS = "http://192.168.0.105/";
+    //private static final String SERVER_ADDRESS = "http://192.168.173.1/";
+
+    private static final String FIND_LOCATION_SERVICE = "find_location.php";
+    private static final String LOGIN_SERVICE = "login.php";
 
     public static final String METHOD_POST = "POST";
 
@@ -15,5 +19,8 @@ public class Services {
 
     public static String LOCATION_URL() {
         return SERVER_ADDRESS + FIND_LOCATION_SERVICE;
+    }
+    public static String LOGIN_URL() {
+        return SERVER_ADDRESS + LOGIN_SERVICE;
     }
 }
