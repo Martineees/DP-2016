@@ -27,8 +27,8 @@ class QuestionsDAO
 
         if ($id != null) return -1;
 
-        $stmt = $this->db->prepare("INSERT INTO questions VALUES(DEFAULT,?,?,?,?)");
-        $stmt->bind_param("siii", $question->getName(), $question->getCompetitionId(), $question->getTargetId(), $question->getLocationId());
+        $stmt = $this->db->prepare("INSERT INTO questions VALUES(DEFAULT,?,?,?,?,?)");
+        $stmt->bind_param("sisii", $question->getName(), $question->getCompetitionId(), $question->getTargetId(), $question->getLocationId(), $question->getType());
         $stmt->execute();
 
         return $stmt->insert_id;
@@ -53,11 +53,11 @@ class QuestionsDAO
     }
 
     public function getQuestions($competitionId) {
-        $stmt = $this->db->prepare("SELECT id,name,target_id,location_id FROM questions WHERE competition_id=?");
+        $stmt = $this->db->prepare("SELECT id,name,target_id,location_id,type FROM questions WHERE competition_id=?");
         $stmt->bind_param("i", $competitionId);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($id, $name, $targetId, $locationId);
+        $stmt->bind_result($id, $name, $targetId, $locationId, $type);
 
         $results = null;
 
@@ -66,7 +66,7 @@ class QuestionsDAO
             $results = new \ArrayObject();
 
             while($stmt -> fetch()) {
-                $question = new Question($id, $name, $competitionId, $targetId, $locationId);
+                $question = new Question($id, $name, $competitionId, $targetId, $locationId, $type);
 
                 $results->append($question);
             }

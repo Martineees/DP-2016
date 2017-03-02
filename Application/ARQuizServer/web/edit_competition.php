@@ -5,6 +5,12 @@
  * Date: 27.2.2017
  * Time: 15:08
  */
+require_once("../dbConnect.php");
+require_once("../dao/CompetitionsDAO.php");
+require_once("../entities/Competition.php");
+
+use entities\Competition;
+use dao\CompetitionsDAO;
 
 session_start();
 
@@ -12,8 +18,20 @@ session_start();
 if(!isset($_SESSION["isLoggedIn"]) || !boolval($_SESSION["isLoggedIn"]))
     header("Location: index.php");
 
+$dbConnect = new DBConnect();
+$db = $dbConnect->connect();
+$competitionsDAO = new CompetitionsDAO($db);
 
+$competition = null;
+$questions = null;
 
+if(isset($_GET["id"])) {
+    $userId = $_SESSION["userId"];
+    $competition = $competitionsDAO->getCompetitionById($_GET["id"]);
+
+    if($userId != $competition->getId())
+        header("Location: dashboard.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +60,7 @@ if(!isset($_SESSION["isLoggedIn"]) || !boolval($_SESSION["isLoggedIn"]))
         </div>
     </div>
     <div id="main" class="shadow">
-        <h1>Your competitions</h1>
+        <h1>Competition detail: <?php echo $competition->getName(); ?></h1>
         <div id="result-box"><div class="loader"></div></div>
         <div id="addButton" class="button item ic ic-add"></div>
     </div>

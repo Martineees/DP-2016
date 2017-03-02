@@ -16,14 +16,16 @@ class Question
     private $competitionId;
     private $targetId;
     private $locationId;
+    private $type;
 
-    function __construct($id, $name, $competitionId, $targetId, $locationId)
+    function __construct($id, $name, $competitionId, $targetId, $locationId, $type)
     {
         $this->id = $id;
         $this->name = $name;
         $this->competitionId = $competitionId;
         $this->targetId = $targetId;
         $this->locationId = $locationId;
+        $this->type = $type;
     }
 
     public function getId()
@@ -49,5 +51,9 @@ class Question
     public function getLocationId()
     {
         return $this->locationId;
+    }
+    public function getType()
+    {
+        return $this->type;
     }
 }

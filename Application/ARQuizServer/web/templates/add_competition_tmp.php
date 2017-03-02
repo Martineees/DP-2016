@@ -14,7 +14,7 @@ if(isset($_SESSION["userId"]))
         <input type="hidden" name="id" id="id" value="<?php echo $userId; ?>" />
         <div class="button-box">
             <input type="submit" value="Add" class="main-btn ic-af ic-add"/>
-            <button class="close second-btn">Close</button>
+            <input type="button" class="close second-btn" value="Close" />
         </div>
     </form>
 </div>

@@ -64,4 +64,27 @@ class LocationDAO
 
         return null;
     }
+
+    public function getAllLocations() {
+        $stmt = $this->db->prepare("SELECT id, block, floor FROM location ORDER BY block, floor");
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $block, $floor);
+        $stmt -> fetch();
+
+        $results = null;
+
+        if($stmt->num_rows > 0) {
+
+            $results = new \ArrayObject();
+
+            while($stmt -> fetch()) {
+                $location = new Location($id, $block, $floor);
+
+                $results->append($location);
+            }
+        }
+
+        return $results;
+    }
 }
