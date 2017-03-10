@@ -17,8 +17,9 @@ class Question
     private $targetId;
     private $locationId;
     private $type;
+    private $score;
 
-    function __construct($id, $name, $competitionId, $targetId, $locationId, $type)
+    function __construct($id, $name, $competitionId, $targetId, $locationId, $type, $score)
     {
         $this->id = $id;
         $this->name = $name;
@@ -26,6 +27,7 @@ class Question
         $this->targetId = $targetId;
         $this->locationId = $locationId;
         $this->type = $type;
+        $this->score = $score;
     }
 
     public function getId()
@@ -55,5 +57,10 @@ class Question
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getScore()
+    {
+        return $this->score;
     }
 }

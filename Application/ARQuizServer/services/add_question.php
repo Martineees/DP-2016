@@ -25,7 +25,7 @@ $answerDAO = new AnswersDAO($db);
 
 $response = array("error" => TRUE);
 
-if(isset($_POST["name"]) && isset($_POST["type"]) && isset($_POST["width"]) && isset($_POST["answer"])
+if(isset($_POST["name"]) && isset($_POST["type"]) && isset($_POST["score"]) && isset($_POST["width"]) && isset($_POST["answer"])
     && isset($_FILES["image"]["tmp_name"])&& isset($_POST["competition_id"]) && isset($_POST["location_id"])) {
 
     $vuforiaService = new PostNewTarget();
@@ -38,7 +38,7 @@ if(isset($_POST["name"]) && isset($_POST["type"]) && isset($_POST["width"]) && i
 
 
         //creating question obj
-        $question = new Question(null, $_POST["name"], $_POST["competition_id"], $vuforia["target_id"], $_POST["location_id"], $_POST["type"]);
+        $question = new Question(null, $_POST["name"], $_POST["competition_id"], $vuforia["target_id"], $_POST["location_id"], $_POST["type"], $_POST["score"]);
         $questionId = $questionsDAO->create($question);
 
         if($questionId != null) {

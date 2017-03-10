@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".CameraAR.CameraActivity" />
-        <activity android:name=".CameraAR.OpenGLRenderer" />
-        <activity android:name=".LocationActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".QuestionsActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".CloudRecoActivity" />
+        <activity android:name=".CompetitionsActivity"></activity>
     </application>
 
 </manifest>

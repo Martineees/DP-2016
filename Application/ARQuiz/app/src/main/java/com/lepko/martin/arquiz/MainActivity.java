@@ -2,13 +2,11 @@ package com.lepko.martin.arquiz;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.lepko.martin.arquiz.CameraAR.CameraActivity;
 import com.lepko.martin.arquiz.Entities.User;
 import com.lepko.martin.arquiz.Utils.SessionManager;
 
@@ -39,8 +37,10 @@ public class MainActivity extends Activity {
     }
 
     public void openCamera(View v) {
-        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+        //Intent intent = new Intent(MainActivity.this, QuestionsActivity.class);
         //Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+        //Intent intent = new Intent(MainActivity.this, CloudRecoActivity.class);
+        Intent intent = new Intent(MainActivity.this, CompetitionsActivity.class);
 
         startActivity(intent);
     }

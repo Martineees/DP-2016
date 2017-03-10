@@ -1,8 +1,6 @@
 package com.lepko.martin.arquiz;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,8 +10,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.lepko.martin.arquiz.Login.LoginFragment;
-import com.lepko.martin.arquiz.Login.LogoutFragment;
+import com.lepko.martin.arquiz.Fragments.Login.LoginFragment;
+import com.lepko.martin.arquiz.Fragments.Login.LogoutFragment;
 import com.lepko.martin.arquiz.Utils.Helper;
 import com.lepko.martin.arquiz.Utils.Services;
 import com.lepko.martin.arquiz.Utils.SessionManager;

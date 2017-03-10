@@ -15,13 +15,15 @@ class Competition
     private $name;
     private $ownerId;
     private $created;
+    private $description;
 
-    function __construct($id, $name, $ownerId, $created)
+    function __construct($id, $name, $ownerId, $created, $description)
     {
         $this->id = $id;
         $this->name = $name;
         $this->ownerId = $ownerId;
         $this->created = $created;
+        $this->description = $description;
     }
 
     public function getId()
@@ -42,5 +44,10 @@ class Competition
     public function getCreated()
     {
         return $this->created;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

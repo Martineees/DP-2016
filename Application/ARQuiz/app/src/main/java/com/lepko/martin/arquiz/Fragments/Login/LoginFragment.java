@@ -1,4 +1,4 @@
-package com.lepko.martin.arquiz.Login;
+package com.lepko.martin.arquiz.Fragments.Login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +21,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.signin_login_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_signin_login, container, false);
     }
 
     @Override

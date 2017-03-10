@@ -24,8 +24,8 @@ class CompetitionsDAO
 
         if($id != null) return -1;
 
-        $stmt = $this->db->prepare("INSERT INTO competitions VALUES(DEFAULT,?,?, DEFAULT)");
-        $stmt->bind_param("si", $competition->getName(), $competition->getOwnerId());
+        $stmt = $this->db->prepare("INSERT INTO competitions VALUES(DEFAULT,?,?, DEFAULT, ?)");
+        $stmt->bind_param("sis", $competition->getName(), $competition->getOwnerId(), $competition->getDescription());
         $stmt->execute();
 
         return $stmt->insert_id;
@@ -49,28 +49,28 @@ class CompetitionsDAO
     }
 
     public function getCompetitionById($id) {
-        $stmt = $this->db->prepare("SELECT name, owner, created  FROM competitions WHERE id=?");
+        $stmt = $this->db->prepare("SELECT name, owner, created, description  FROM competitions WHERE id=?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($name, $owner, $created);
+        $stmt->bind_result($name, $owner, $created, $description);
         $stmt -> fetch();
 
         $num_rows = $stmt->num_rows;
 
         if($num_rows == 1) {
-            return new Competition($id, $name, $owner, $created);
+            return new Competition($id, $name, $owner, $created, $description);
         }
 
         return null;
     }
 
     public function getCompetitionsByOwner($ownerId) {
-        $stmt = $this->db->prepare("SELECT id,name,created FROM competitions WHERE owner=? ORDER BY created");
+        $stmt = $this->db->prepare("SELECT id,name,created,description FROM competitions WHERE owner=? ORDER BY created");
         $stmt->bind_param("i", $ownerId);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($id, $name, $created);
+        $stmt->bind_result($id, $name, $created, $description);
 
         $results = null;
 
@@ -79,7 +79,55 @@ class CompetitionsDAO
             $results = new \ArrayObject();
 
             while($stmt -> fetch()) {
-                $competition = new Competition($id, $name, $ownerId, $created);
+                $competition = new Competition($id, $name, $ownerId, $created, $description);
+
+                $results->append($competition);
+            }
+        }
+
+        return $results;
+    }
+
+    public function getAllCompetitions() {
+        $stmt = $this->db->prepare("SELECT id,name, owner, created, description FROM competitions ORDER BY created");
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $name, $ownerId, $created, $description);
+
+        $results = null;
+
+        if($stmt->num_rows > 0) {
+
+            $results = new \ArrayObject();
+
+            while($stmt -> fetch()) {
+                $competition = new Competition($id, $name, $ownerId, $created, $description);
+
+                $results->append($competition);
+            }
+        }
+
+        return $results;
+    }
+
+    public function getAllCompetitionsJSONArray() {
+        $stmt = $this->db->prepare("SELECT id,name, owner, created, description FROM competitions ORDER BY created");
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $name, $ownerId, $created, $description);
+
+        $results = null;
+
+        if($stmt->num_rows > 0) {
+
+            $results = new \ArrayObject();
+
+            while($stmt -> fetch()) {
+                $competition = array("id" => $id);
+                $competition["name"] = $name;
+                $competition["owner"] = $ownerId;
+                $competition["created"] = $created;
+                $competition["description"] = $description;
 
                 $results->append($competition);
             }

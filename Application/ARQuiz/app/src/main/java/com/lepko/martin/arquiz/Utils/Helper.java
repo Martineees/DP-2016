@@ -5,6 +5,11 @@ import android.net.wifi.ScanResult;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.lepko.martin.arquiz.Entities.Answer;
+import com.lepko.martin.arquiz.Entities.Competition;
+import com.lepko.martin.arquiz.Entities.Location;
+import com.lepko.martin.arquiz.Entities.Question;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.AbstractMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,7 +29,6 @@ import java.util.List;
  */
 
 public class Helper {
-    public static String IP_ADDRESS = "10.0.2.2";
 
     public static String getStringFromInputStream(InputStream is) {
 
@@ -112,5 +117,70 @@ public class Helper {
 
     public static JSONObject string2JSON(String jsonString) throws JSONException {
         return new JSONObject(jsonString);
+    }
+
+    public static List<Competition> parseCompetitionsJSON(JSONArray jsonArray) throws JSONException {
+        List<Competition> competitions = new LinkedList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            Competition competition = new Competition(obj.getInt("id"), obj.getString("name"),
+                    obj.getInt("owner"), obj.getString("created"), obj.getString("description"));
+
+            competitions.add(competition);
+        }
+
+        return competitions;
+    }
+
+    public static List<Question> parseQuestionsJSON(JSONArray jsonArray) throws JSONException {
+        List<Question> questions = new LinkedList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+
+            int questionId = obj.getInt("id");
+            List<Answer> answers = parseAnswersJSON(new JSONArray(obj.getString("answers")));
+            Location location = json2Location(new JSONObject(obj.getString("location")));
+
+            Question question = new Question(questionId, obj.getString("name"),
+                    obj.getString("targetId"), location, obj.getInt("type"),
+                    obj.getInt("score"), answers);
+
+            questions.add(question);
+        }
+
+        return questions;
+    }
+
+    private static List<Location> parseLocationJSON(JSONArray jsonArray) throws JSONException {
+        List<Location> locations = new LinkedList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            Location location = json2Location(obj);
+
+            locations.add(location);
+        }
+
+        return locations;
+    }
+
+    private static List<Answer> parseAnswersJSON(JSONArray jsonArray) throws JSONException {
+        List<Answer> answers = new LinkedList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            Answer answer = new Answer(obj.getInt("id"), obj.getString("name"),
+                    obj.getInt("isCorrect") == 1);
+
+            answers.add(answer);
+        }
+
+        return answers;
+    }
+
+    public static Location json2Location(JSONObject obj) throws JSONException {
+        return new Location(obj.getInt("id"), obj.getString("block").charAt(0), obj.getInt("floor"));
     }
 }

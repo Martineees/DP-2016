@@ -38,6 +38,7 @@ if(isset($_POST['scanResults'])){
 
     if($location != null) {
         $response["error"] = FALSE;
+        $response["id"] = $location->getId();
         $response["block"] = $location->getBlock();
         $response["floor"] = $location->getFloor();
     } else {

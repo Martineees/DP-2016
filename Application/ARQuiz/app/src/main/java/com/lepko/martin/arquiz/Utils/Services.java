@@ -6,12 +6,15 @@ package com.lepko.martin.arquiz.Utils;
 
 public class Services {
 
-    //private static final String SERVER_ADDRESS = "http://192.168.1.101/";
-    private static final String SERVER_ADDRESS = "http://192.168.0.105/";
-    //private static final String SERVER_ADDRESS = "http://192.168.173.1/";
+    //private static final String SERVER_ADDRESS = "http://192.168.1.101/"; //home
+    //private static final String SERVER_ADDRESS = "http://192.168.0.105/"; //brezno
+    //private static final String SERVER_ADDRESS = "http://192.168.173.1/"; //hrachovo
+    private static final String SERVER_ADDRESS = "http://192.168.10.156/"; //work
 
-    private static final String FIND_LOCATION_SERVICE = "find_location.php";
-    private static final String LOGIN_SERVICE = "login.php";
+    private static final String FIND_LOCATION_SERVICE = "services/find_location.php";
+    private static final String LOGIN_SERVICE = "services/login.php";
+    private static final String COMPETITIONS_SERVICE = "services/get_competitions.php";
+    private static final String QUESTIONS_SERVICE = "services/get_questions.php";
 
     public static final String METHOD_POST = "POST";
 
@@ -22,5 +25,11 @@ public class Services {
     }
     public static String LOGIN_URL() {
         return SERVER_ADDRESS + LOGIN_SERVICE;
+    }
+    public static String COMPETITIONS_URL() {
+        return SERVER_ADDRESS + COMPETITIONS_SERVICE;
+    }
+    public static String QUESTIONS_URL() {
+        return SERVER_ADDRESS + QUESTIONS_SERVICE;
     }
 }

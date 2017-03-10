@@ -8,7 +8,10 @@
 require_once("../dbConnect.php");
 require_once("../dao/CompetitionsDAO.php");
 require_once("../entities/Competition.php");
+require_once("../dao/QuestionsDAO.php");
+require_once("../entities/Question.php");
 
+use dao\QuestionsDAO;
 use entities\Competition;
 use dao\CompetitionsDAO;
 
@@ -21,16 +24,22 @@ if(!isset($_SESSION["isLoggedIn"]) || !boolval($_SESSION["isLoggedIn"]))
 $dbConnect = new DBConnect();
 $db = $dbConnect->connect();
 $competitionsDAO = new CompetitionsDAO($db);
+$questionsDAO = new QuestionsDAO($db);
 
 $competition = null;
-$questions = null;
+$question = null;
 
 if(isset($_GET["id"])) {
     $userId = $_SESSION["userId"];
-    $competition = $competitionsDAO->getCompetitionById($_GET["id"]);
 
-    if($userId != $competition->getId())
-        header("Location: dashboard.php");
+    $question = $questionsDAO->getQuestionById($_GET["id"]);
+
+    if($question != null) {
+        $competition = $competitionsDAO->getCompetitionById($question->getCompetitionId());
+
+        if($userId != $competition->getId())
+            header("Location: dashboard.php");
+    }
 }
 ?>
 
@@ -60,7 +69,7 @@ if(isset($_GET["id"])) {
         </div>
     </div>
     <div id="main" class="shadow">
-        <h1>Competition detail: <?php echo $competition->getName(); ?></h1>
+        <h1>Question detail: <?php echo $question->getName(); ?></h1>
         <div id="result-box"><div class="loader"></div></div>
         <div id="addButton" class="button item ic ic-add"></div>
     </div>

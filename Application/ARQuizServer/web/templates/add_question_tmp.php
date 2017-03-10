@@ -59,6 +59,9 @@ if(isset($_POST["id"])) {
             ?>
         </select>
 
+        <label for="score">Score</label>
+        <input type="number" name="score" id="score" required />
+
         <label>Correct answer</label>
         <p class="note">Answers will be suffled</p>
         <input type="text" name="answer[]" required>

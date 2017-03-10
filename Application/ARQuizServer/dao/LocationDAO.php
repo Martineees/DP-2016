@@ -65,6 +65,28 @@ class LocationDAO
         return null;
     }
 
+    public function getLocationByIDJSONObj($locationID) {
+        $stmt = $this->db->prepare("SELECT id, block, floor FROM location WHERE id=?");
+        $stmt->bind_param("i", $locationID);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $block, $floor);
+        $stmt -> fetch();
+
+        $num_rows = $stmt->num_rows;
+
+        $location = null;
+
+        if($num_rows == 1) {
+
+            $location = array("id" => $id);
+            $location["block"] = $block;
+            $location["floor"] = $floor;
+        }
+
+        return $location;
+    }
+
     public function getAllLocations() {
         $stmt = $this->db->prepare("SELECT id, block, floor FROM location ORDER BY block, floor");
         $stmt->execute();
