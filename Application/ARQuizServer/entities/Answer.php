@@ -11,6 +11,9 @@ namespace entities;
 
 class Answer
 {
+    public static $correct = 1;
+    public static $incorrect = 0;
+
     private $id;
     private $name;
     private $questionId;

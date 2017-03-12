@@ -25,7 +25,7 @@ class AnswersDAO
         if($id != null) return -1;
 
         $stmt = $this->db->prepare("INSERT INTO answers VALUES(DEFAULT,?,?,?)");
-        $stmt->bind_param("sib", $answer->getName(), $answer->getQuestionId(), $answer->getIsCorrect());
+        $stmt->bind_param("sii", $answer->getName(), $answer->getQuestionId(), $answer->getIsCorrect());
         $stmt->execute();
 
         return $stmt->insert_id;
@@ -48,7 +48,7 @@ class AnswersDAO
         return null;
     }
 
-    private function getAnswers($questionId)
+    public function getAnswers($questionId)
     {
         $stmt = $this->db->prepare("SELECT id,name,is_correct FROM answers WHERE question_id=?");
         $stmt->bind_param("i", $questionId);
@@ -71,6 +71,24 @@ class AnswersDAO
 
         return $results;
     }
+    public function getCorrectAnswer($questionId)
+    {
+        $stmt = $this->db->prepare("SELECT id,name,is_correct FROM answers WHERE question_id=? AND is_correct=1");
+        $stmt->bind_param("i", $questionId);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $name, $isCorrect);
+
+        $result = null;
+
+        if ($stmt->num_rows == 1) {
+            $stmt->fetch();
+            $result = new Answer($id, $name, $questionId, $isCorrect);
+        }
+
+        return $result;
+    }
+
 
     public function getAnswersJSONArray($questionId)
     {
@@ -96,5 +114,25 @@ class AnswersDAO
         }
 
         return $results;
+    }
+
+    public function updateAnswer($id, $name) {
+        $stmt = $this->db->prepare("UPDATE answers SET name=? WHERE id=?");
+        $stmt->bind_param("si", $name, $id);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1) return true;
+
+        return false;
+    }
+
+    public function removeAllIncorrectAnswers($questionId) {
+        $stmt = $this->db->prepare("DELETE FROM answers WHERE question_id=? AND is_correct=0");
+        $stmt->bind_param("i", $questionId);
+        $stmt->execute();
+
+        if($stmt->affected_rows > 0) return true;
+
+        return false;
     }
 }

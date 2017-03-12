@@ -129,4 +129,37 @@ class QuestionsDAO
 
         return $results;
     }
+
+    public function updateQuestionDetails(Question $question) {
+
+        $stmt = $this->db->prepare("UPDATE questions SET name=?, location_id=?, score=? WHERE id=?");
+        $stmt->bind_param("siii", $question->getName(), $question->getLocationId(), $question->getScore(), $question->getId());
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1) return true;
+
+        return false;
+    }
+
+    public function updateQuestionType($id, $type) {
+
+        $stmt = $this->db->prepare("UPDATE questions SET type=? WHERE id=?");
+        $stmt->bind_param("ii", $type, $id);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1) return true;
+
+        return false;
+    }
+
+    public function updateQuestionTargetId($id, $targetId) {
+
+        $stmt = $this->db->prepare("UPDATE questions SET target_id=? WHERE id=?");
+        $stmt->bind_param("si", $targetId, $id);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1) return true;
+
+        return false;
+    }
 }

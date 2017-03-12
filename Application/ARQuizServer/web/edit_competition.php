@@ -32,14 +32,10 @@ $question = null;
 if(isset($_GET["id"])) {
     $userId = $_SESSION["userId"];
 
-    $question = $questionsDAO->getQuestionById($_GET["id"]);
+    $competition = $competitionsDAO->getCompetitionById($_GET["id"]);
 
-    if($question != null) {
-        $competition = $competitionsDAO->getCompetitionById($question->getCompetitionId());
-
-        if($userId != $competition->getId())
-            header("Location: dashboard.php");
-    }
+    if($competition == null || $userId != $competition->getId())
+        header("Location: dashboard.php");
 }
 ?>
 
@@ -69,9 +65,30 @@ if(isset($_GET["id"])) {
         </div>
     </div>
     <div id="main" class="shadow">
-        <h1>Question detail: <?php echo $question->getName(); ?></h1>
-        <div id="result-box"><div class="loader"></div></div>
-        <div id="addButton" class="button item ic ic-add"></div>
+        <h1>Competition detail: <?php echo $competition->getName(); ?></h1>
+        <div class="col col-60">
+            <h2>Questions</h2>
+            <div id="result-box"><div class="loader"></div></div>
+            <div id="addButton" class="button item ic ic-add"></div>
+        </div>
+        <div class="col col-40">
+            <div>
+                <h2>Details</h2>
+                <div class="form-box">
+                    <form id="competitionDetails" autocomplete="off">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" value="<?php echo $competition->getName(); ?>" required />
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="4"><?php echo $competition->getDescription(); ?></textarea>
+
+                        <input type="hidden" name="competition_id" value="<?php echo $competition->getId(); ?>" />
+                        <div class="button-box">
+                            <input type="submit" value="Save" class="main-btn ic-af ic-save"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="footer"></div>
 </body>

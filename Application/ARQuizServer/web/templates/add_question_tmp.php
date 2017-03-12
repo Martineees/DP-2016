@@ -28,12 +28,13 @@ if(isset($_POST["id"])) {
         <label for="name">Question</label>
         <input type="text" name="name" id="name" required />
         <label>Image target</label>
+        <p class="note">.jpg or .png</p>
         <div class="input-file-box">
-            <input type="file" name="image" id="image" required />
+            <input type="file" name="image" id="image" accept="image/jpeg, image/png" required />
             <label for="image">Choose a file</label>
         </div>
         <label for="width">Image width in real world</label>
-        <input type="text" name="width" id="width" required />
+        <input type="number" name="width" id="width" required />
         <label for="type">Question type</label>
         <select id="type" name="type" required>
             <option value="0" selected>With options</option>

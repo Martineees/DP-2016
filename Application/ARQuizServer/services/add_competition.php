@@ -20,8 +20,8 @@ $competitionsDAO = new CompetitionsDAO($db);
 
 $response = array("error" => TRUE);
 
-if(isset($_POST["name"]) && isset($_POST["id"])) {
-    $competition = new Competition(null, $_POST["name"], $_POST["id"], null);
+if(isset($_POST["name"]) && isset($_POST["id"]) && isset($_POST["description"])) {
+    $competition = new Competition(null, $_POST["name"], $_POST["id"], null, $_POST["description"]);
 
     $result = $competitionsDAO->create($competition);
 

@@ -11,6 +11,9 @@ namespace entities;
 
 class Question
 {
+    public static $withOptions = 0;
+    public static $writableAnswer = 1;
+
     private $id;
     private $name;
     private $competitionId;

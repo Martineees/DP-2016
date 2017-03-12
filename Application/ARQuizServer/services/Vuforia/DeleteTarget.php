@@ -10,19 +10,18 @@ require_once 'SignatureBuilder.php';
 class DeleteTarget{
 
 	//Server Keys
-	private $access_key 	= "[ server access key ]";
-	private $secret_key 	= "[ server secret key ]";
-	
-	private $targetId 		= "[ target id ]";
+	private $access_key 	= "30c3119a2e8756ff90c467a8ae68f6067df7a659";
+	private $secret_key 	= "100fbc56c990c2762fe3baafb52913b89b0b0634";
+
 	private $url 			= "https://vws.vuforia.com";
 	private $requestPath 	= "/targets/";
 	private $request;
 	
-	function DeleteTarget(){
+	public function DeleteTargetService($targetId){
 
-		$this->requestPath = $this->requestPath . $this->targetId;
+		$this->requestPath = $this->requestPath . $targetId;
 		
-		$this->execDeleteTarget();
+		return $this->execDeleteTarget();
 
 	}
 
@@ -46,13 +45,13 @@ class DeleteTarget{
 			$response = $this->request->send();
 
 			if (200 == $response->getStatus()) {
-				echo $response->getBody();
+				return $response->getBody();
 			} else {
-				echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+				return 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
 						$response->getReasonPhrase(). ' ' . $response->getBody();
 			}
 		} catch (HTTP_Request2_Exception $e) {
-			echo 'Error: ' . $e->getMessage();
+			return 'Error: ' . $e->getMessage();
 		}
 
 

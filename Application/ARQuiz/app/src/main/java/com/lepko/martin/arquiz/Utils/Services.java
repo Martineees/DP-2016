@@ -6,10 +6,10 @@ package com.lepko.martin.arquiz.Utils;
 
 public class Services {
 
-    //private static final String SERVER_ADDRESS = "http://192.168.1.101/"; //home
+    private static final String SERVER_ADDRESS = "http://192.168.1.101/"; //home
     //private static final String SERVER_ADDRESS = "http://192.168.0.105/"; //brezno
     //private static final String SERVER_ADDRESS = "http://192.168.173.1/"; //hrachovo
-    private static final String SERVER_ADDRESS = "http://192.168.10.156/"; //work
+    //private static final String SERVER_ADDRESS = "http://192.168.10.156/"; //work
 
     private static final String FIND_LOCATION_SERVICE = "services/find_location.php";
     private static final String LOGIN_SERVICE = "services/login.php";

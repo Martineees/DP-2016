@@ -135,4 +135,15 @@ class CompetitionsDAO
 
         return $results;
     }
+
+    public function updateCompetitionDetails(Competition $competition) {
+
+        $stmt = $this->db->prepare("UPDATE competitions SET name=?, description=? WHERE id=?");
+        $stmt->bind_param("ssi", $competition->getName(), $competition->getDescription(), $competition->getId());
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1) return true;
+
+        return false;
+    }
 }

@@ -228,8 +228,47 @@ window.arquiz.dashboard = window.arquiz.dashboard || (function ($) {
     }
 })(jQuery);
 
-//DASHBOARD
+//EDIT_COMPETITION
 window.arquiz.editCompetition = window.arquiz.editCompetition || (function ($) {
+
+        var _bindCompetitionForm = function() {
+            var $form = $("#competitionDetails");
+
+            $form.submit(function(e) {
+                e.preventDefault();
+
+                _updateAJAX($(this), "update_competition_details.php");
+            });
+        };
+
+        var _updateAJAXSuccess = function($response) {
+
+            console.log($response);
+
+            $responseObj = $.parseJSON($response);
+            if($responseObj["error"] == "true") _updateAnswersFailed($reponse);
+
+            window.location.reload();
+        };
+
+        var _updateAJAXFailed = function($response) {
+            console.error($response);
+        };
+
+        var _updateAJAX = function($form, page) {
+            var data = $form.serialize();
+            $("form").addClass("disabled");
+            arquiz.helper.addLoader($form);
+
+            $.ajax({
+                type: "POST",
+                url: "../services/" + page,
+                dataTypes: 'json',
+                data: data,
+                success: _updateAJAXSuccess,
+                failed: _updateAJAXFailed
+            });
+        };
 
         var _bindBtns = function() {
             $("#addButton").on("click", function() {
@@ -373,6 +412,7 @@ window.arquiz.editCompetition = window.arquiz.editCompetition || (function ($) {
         var initialize = function() {
             _bindBtns();
             _getQuestions();
+            _bindCompetitionForm();
         };
 
         return {
@@ -380,6 +420,202 @@ window.arquiz.editCompetition = window.arquiz.editCompetition || (function ($) {
         }
     })(jQuery);
 
+//EDIT_QUESTION
+window.arquiz.editQuestion = window.arquiz.editQuestion || (function ($) {
+
+        var _bindQuestionForm = function() {
+            var $form = $("#questionDetails");
+
+            $form.submit(function(e) {
+                e.preventDefault();
+
+                _updateAJAX($(this), "update_question_details.php");
+            });
+        };
+
+        var _removeAnswer = function($elem) {
+            var $input = $elem.next();
+            $input.remove();
+            $elem.remove();
+        };
+
+        var _updateAJAXSuccess = function($response) {
+
+            console.log($response);
+
+            $responseObj = $.parseJSON($response);
+            if($responseObj["error"] == "true") _updateAnswersFailed($reponse);
+
+            window.location.reload();
+        };
+
+        var _updateAJAXFailed = function($response) {
+            console.error($response);
+        };
+
+        var _updateAJAX = function($form, page) {
+            var data = $form.serialize();
+            $("form").addClass("disabled");
+            arquiz.helper.addLoader($form);
+
+            $.ajax({
+                type: "POST",
+                url: "../services/" + page,
+                dataTypes: 'json',
+                data: data,
+                success: _updateAJAXSuccess,
+                failed: _updateAJAXFailed
+            });
+        };
+
+        var _updateAJAXFile = function($form, page) {
+            var data = new FormData($form[0]);
+
+            $("form").addClass("disabled");
+            arquiz.helper.addLoader($form);
+
+            $.ajax({
+                type: "POST",
+                url: "../services/" + page,
+                dataTypes: 'json',
+                data: data,
+                success: _updateAJAXSuccess,
+                failed: _updateAJAXFailed,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        };
+
+        var _bindAnswerForm = function() {
+            var $form = $("#questionAnswers");
+
+            $form.submit(function(e) {
+                e.preventDefault();
+
+                var type = $('#type').val();
+                if(type == 1) {
+                    $form.find("#otherAnswers").empty();
+                }
+
+                _updateAJAX($(this), "update_question_answers.php");
+            });
+
+            $form.find("#addAnswer").on('click', function(e) {
+                e.preventDefault();
+
+                var $container = $form.find("#otherAnswers");
+
+                if($container.find(".label-incorrect").length == 0) {
+                    $container.append('<label class="label-incorrect">Incorrect answer</label>');
+                }
+
+                var $removeBtn = $('<input type="button" class="second-btn remove-btn" value="remove" />');
+                $removeBtn.on('click', function(e) { _removeAnswer($(this))});
+
+                $container.append($removeBtn);
+                $container.append('<input type="text" name="answer[]" />');
+            });
+
+            $form.find('#type').on('change', function(e) {
+                var $addBtn = $form.find("#addAnswer");
+
+                if($(this).val() == 0) {
+                    $form.find("#otherAnswers").show();
+                    $addBtn.show();
+                } else {
+                    $addBtn.hide();
+                    $form.find("#otherAnswers").hide();
+                }
+            });
+
+            $form.find(".remove-btn").each(function(i, elem) {
+                $(elem).on("click", function(e) {
+                    _removeAnswer($(this));
+                });
+            });
+        };
+
+        var _onGetTargetSuccess = function($response) {
+            console.log($response);
+
+            var jsonObj = $.parseJSON($response);
+            if(jsonObj["error"] == "true") {
+                _onGetTargetFailed($response);
+                return;
+            }
+
+            var status = jsonObj["target_status"] == "processing" ? " - processing" : "";
+            $("#targetTitle").append("<span class='note'>" + status + "</span>");
+
+            var background = jsonObj["target_image"];
+            var $targetImage = $("#targetImage");
+            var targetRate = jsonObj["target_rate"];
+            var $targetRateStars = $(".target-rate .ic");
+
+            $("#target_name").val(jsonObj["target_name"]);
+
+            $targetImage.find(".loader").remove();
+            $targetImage.css("background-image","url("+background+")");
+
+            for(i=0; i < targetRate; i++) {
+                $($targetRateStars.get(i)).removeClass("ic-star");
+                $($targetRateStars.get(i)).addClass("ic-star-filled");
+            }
+
+            $(".target-rate, #changeTargetForm").removeClass("hide");
+        };
+
+        var _onGetTargetFailed = function($response) {
+            console.error($response);
+        };
+
+        var _getTarget = function() {
+            var $targetImage = $("#targetImage");
+            var targetId = $targetImage.data("target");
+            var data = "target_id="+targetId;
+
+            $.ajax({
+                type: "POST",
+                url: "../services/get_target.php",
+                dataTypes: 'json',
+                data: data,
+                success: _onGetTargetSuccess,
+                failed: _onGetTargetFailed
+            });
+        };
+
+        var _bindTargetForm = function() {
+            var $form = $("#changeTargetForm");
+
+            $form.submit(function(e) {
+                e.preventDefault();
+
+                $form.addClass("processing");
+
+                _updateAJAXFile($(this), "update_question_target.php");
+            });
+
+            $form.find("input[type=file]").each(function(i, elem) {
+                arquiz.helper.initFileSelector(elem);
+            });
+        };
+
+        var _bindBtns = function() {
+            _bindQuestionForm();
+            _bindAnswerForm();
+            _bindTargetForm();
+        };
+
+        var initialize = function() {
+            _bindBtns();
+            _getTarget();
+        };
+
+        return {
+            initialize: initialize
+        }
+    })(jQuery);
 
 //INIT
 $(document).ready(function($) {
@@ -394,6 +630,9 @@ $(document).ready(function($) {
                 break;
             case 'edit_competition.php':
                 window.arquiz.editCompetition.initialize();
+                break;
+            case 'edit_question.php':
+                window.arquiz.editQuestion.initialize();
                 break;
         }
     };
