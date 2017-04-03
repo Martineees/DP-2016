@@ -20,11 +20,13 @@ class CompetitorsDAO
     private $db;
     private $compettionsDAO;
     private $usersDAO;
+    private $answerLogDAO;
 
     function __construct(\mysqli $db) {
         $this->db = $db;
         $this->compettionsDAO = new CompetitionsDAO($db);
         $this->usersDAO = new UsersDAO($db);
+        $this->answerLogDAO = new AnswersLogDAO($db);
     }
 
     public function create(Competitor $competitor) {
@@ -81,7 +83,33 @@ class CompetitorsDAO
         return $results;
     }
 
-    public function getCompetitionUsers(Competition $competition) {
+    public function getUserCompetitionJSONArray(User $user) {
+        $stmt = $this->db->prepare("SELECT id, competition_id FROM competitors WHERE user_id=?");
+        $stmt->bind_param("i", $user->getId());
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $competitionId);
+
+        $results = new \ArrayObject();
+
+        if($stmt->num_rows > 0) {
+
+            while($stmt -> fetch()) {
+                $competitor = array("id" => $id);
+                $competitor["competition_id"] = $competitionId;
+                $competitor["answers_list"] = json_encode($this->answerLogDAO->getCompetitorAnswersJSONArray($id)->getArrayCopy());
+
+                $results->append($competitor);
+            }
+
+            return $results;
+        }
+
+        return $results;
+    }
+
+    public function getCompetitionUsers(Competition $competition)
+    {
         $stmt = $this->db->prepare("SELECT user_id FROM competitors WHERE competition_id=?");
         $stmt->bind_param("i", $competition->getId());
         $stmt->execute();
@@ -90,11 +118,11 @@ class CompetitorsDAO
 
         $results = null;
 
-        if($stmt->num_rows > 0) {
+        if ($stmt->num_rows > 0) {
 
             $results = new \ArrayObject();
 
-            while($stmt -> fetch()) {
+            while ($stmt->fetch()) {
                 $user = $this->usersDAO->getUserById($userId);
 
                 $results->append($user);

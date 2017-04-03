@@ -533,6 +533,27 @@ body#public-page {
     background-color: rgba(255,255,255,.95);
 }
 
+#private-page #chart {
+    padding-bottom: 1em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    text-align: left;
+}
+
+tr:nth-of-type(odd) {
+    background: #eee;
+}
+
+tr:first-child {
+    background: transparent;
+}
+
 /* ICONS */
 .ic-af,
 .ic {

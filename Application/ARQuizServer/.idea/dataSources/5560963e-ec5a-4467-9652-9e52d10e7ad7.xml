@@ -22,44 +22,45 @@
     <schema id="16" parent="1" name="twa_z4"/>
     <schema id="17" parent="1" name="webauth"/>
     <table id="18" parent="2" name="answers"/>
-    <table id="19" parent="2" name="competitions"/>
-    <table id="20" parent="2" name="competitors"/>
-    <table id="21" parent="2" name="location"/>
-    <table id="22" parent="2" name="measurement"/>
-    <table id="23" parent="2" name="questions"/>
-    <table id="24" parent="2" name="score"/>
-    <table id="25" parent="2" name="users"/>
-    <table id="26" parent="2" name="wifi"/>
-    <column id="27" parent="18" name="id">
+    <table id="19" parent="2" name="answers_log"/>
+    <table id="20" parent="2" name="competitions"/>
+    <table id="21" parent="2" name="competitors"/>
+    <table id="22" parent="2" name="location"/>
+    <table id="23" parent="2" name="measurement"/>
+    <table id="24" parent="2" name="questions"/>
+    <table id="25" parent="2" name="score"/>
+    <table id="26" parent="2" name="users"/>
+    <table id="27" parent="2" name="wifi"/>
+    <column id="28" parent="18" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="28" parent="18" name="name">
+    <column id="29" parent="18" name="name">
       <Position>2</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="29" parent="18" name="question_id">
+    <column id="30" parent="18" name="question_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="30" parent="18" name="is_correct">
+    <column id="31" parent="18" name="is_correct">
       <Position>4</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="31" parent="18" name="question_id">
+    <index id="32" parent="18" name="question_id">
       <ColNames>question_id</ColNames>
     </index>
-    <key id="32" parent="18" name="PRIMARY">
+    <key id="33" parent="18" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="33" parent="18" name="question-answer">
+    <foreign-key id="34" parent="18" name="question-answer">
       <ColNames>question_id</ColNames>
       <RefSchemaName>ar_quiz_db</RefSchemaName>
       <RefTableName>questions</RefTableName>
@@ -67,248 +68,38 @@
       <OnUpdate>update</OnUpdate>
       <OnDelete>delete</OnDelete>
     </foreign-key>
-    <column id="34" parent="19" name="id">
+    <column id="35" parent="19" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="35" parent="19" name="name">
+    <column id="36" parent="19" name="competitor_id">
       <Position>2</Position>
-      <DataType>varchar(256)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="36" parent="19" name="owner">
-      <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="37" parent="19" name="created">
+    <column id="37" parent="19" name="is_correct">
       <Position>4</Position>
-      <DataType>datetime|0</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-    </column>
-    <column id="38" parent="19" name="description">
-      <Position>5</Position>
-      <DataType>varchar(2000)|0</DataType>
+      <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="39" parent="19" name="owner">
-      <ColNames>owner</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="40" parent="19" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="41" parent="19" name="owner">
-      <ColNames>owner</ColNames>
-      <UnderlyingIndexName>owner</UnderlyingIndexName>
-    </key>
-    <foreign-key id="42" parent="19" name="user-competition">
-      <ColNames>owner</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>users</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <column id="43" parent="20" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="44" parent="20" name="competition_id">
-      <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="45" parent="20" name="user_id">
+    <column id="38" parent="19" name="question_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="46" parent="20" name="competition_id">
-      <ColNames>competition_id</ColNames>
-    </index>
-    <index id="47" parent="20" name="user_id">
-      <ColNames>user_id</ColNames>
-    </index>
-    <key id="48" parent="20" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="49" parent="20" name="competition-competitor">
-      <ColNames>competition_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>competitions</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <foreign-key id="50" parent="20" name="users-competitor">
-      <ColNames>user_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>users</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <column id="51" parent="21" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="52" parent="21" name="block">
-      <Position>2</Position>
-      <DataType>varchar(1)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="53" parent="21" name="floor">
-      <Position>3</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="54" parent="21" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="55" parent="22" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="56" parent="22" name="level">
-      <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="57" parent="22" name="wifi_id">
-      <Position>3</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="58" parent="22" name="block_id">
-      <Position>4</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="59" parent="22" name="block_id">
-      <ColNames>block_id</ColNames>
-    </index>
-    <index id="60" parent="22" name="wifi_id">
-      <ColNames>wifi_id</ColNames>
-    </index>
-    <key id="61" parent="22" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="62" parent="22" name="wifi-measurement">
-      <ColNames>wifi_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>wifi</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <foreign-key id="63" parent="22" name="location-measurement">
-      <ColNames>block_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>location</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <column id="64" parent="23" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="65" parent="23" name="name">
-      <Position>2</Position>
-      <DataType>varchar(256)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="66" parent="23" name="competition_id">
-      <Position>3</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="67" parent="23" name="target_id">
-      <Position>4</Position>
-      <DataType>varchar(256)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="68" parent="23" name="location_id">
-      <Position>5</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="69" parent="23" name="type">
-      <Position>6</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="70" parent="23" name="score">
-      <Position>7</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="71" parent="23" name="competition_id">
-      <ColNames>competition_id</ColNames>
-    </index>
-    <index id="72" parent="23" name="location_id">
-      <ColNames>location_id</ColNames>
-    </index>
-    <key id="73" parent="23" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="74" parent="23" name="competition-question">
-      <ColNames>competition_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>competitions</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <foreign-key id="75" parent="23" name="location-question">
-      <ColNames>location_id</ColNames>
-      <RefSchemaName>ar_quiz_db</RefSchemaName>
-      <RefTableName>location</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>update</OnUpdate>
-      <OnDelete>delete</OnDelete>
-    </foreign-key>
-    <column id="76" parent="24" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="77" parent="24" name="competitor_id">
-      <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="78" parent="24" name="value">
-      <Position>3</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="79" parent="24" name="competitor_id">
+    <index id="39" parent="19" name="competitor_id">
       <ColNames>competitor_id</ColNames>
     </index>
-    <key id="80" parent="24" name="PRIMARY">
+    <index id="40" parent="19" name="question_id">
+      <ColNames>question_id</ColNames>
+    </index>
+    <key id="41" parent="19" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="81" parent="24" name="competitor-score">
+    <foreign-key id="42" parent="19" name="competitor-answer_log">
       <ColNames>competitor_id</ColNames>
       <RefSchemaName>ar_quiz_db</RefSchemaName>
       <RefTableName>competitors</RefTableName>
@@ -316,49 +107,304 @@
       <OnUpdate>update</OnUpdate>
       <OnDelete>delete</OnDelete>
     </foreign-key>
-    <column id="82" parent="25" name="id">
+    <foreign-key id="43" parent="19" name="question-answer_log">
+      <ColNames>question_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>questions</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="44" parent="20" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="83" parent="25" name="name">
+    <column id="45" parent="20" name="name">
       <Position>2</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="84" parent="25" name="password_hash">
+    <column id="46" parent="20" name="owner">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="20" name="created">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="48" parent="20" name="description">
+      <Position>5</Position>
+      <DataType>varchar(2000)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="49" parent="20" name="owner">
+      <ColNames>owner</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="50" parent="20" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="51" parent="20" name="owner">
+      <ColNames>owner</ColNames>
+      <UnderlyingIndexName>owner</UnderlyingIndexName>
+    </key>
+    <foreign-key id="52" parent="20" name="user-competition">
+      <ColNames>owner</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="53" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="54" parent="21" name="competition_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="55" parent="21" name="user_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="56" parent="21" name="competition_id">
+      <ColNames>competition_id</ColNames>
+    </index>
+    <index id="57" parent="21" name="user_id">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="58" parent="21" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="59" parent="21" name="competition-competitor">
+      <ColNames>competition_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>competitions</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="60" parent="21" name="users-competitor">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="61" parent="22" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="62" parent="22" name="block">
+      <Position>2</Position>
+      <DataType>varchar(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="63" parent="22" name="floor">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="64" parent="22" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="65" parent="23" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="66" parent="23" name="level">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="67" parent="23" name="wifi_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="68" parent="23" name="block_id">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="69" parent="23" name="block_id">
+      <ColNames>block_id</ColNames>
+    </index>
+    <index id="70" parent="23" name="wifi_id">
+      <ColNames>wifi_id</ColNames>
+    </index>
+    <key id="71" parent="23" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="72" parent="23" name="wifi-measurement">
+      <ColNames>wifi_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>wifi</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="73" parent="23" name="location-measurement">
+      <ColNames>block_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>location</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="74" parent="24" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="75" parent="24" name="name">
+      <Position>2</Position>
+      <DataType>varchar(256)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="76" parent="24" name="competition_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="77" parent="24" name="target_id">
+      <Position>4</Position>
+      <DataType>varchar(256)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="78" parent="24" name="location_id">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="79" parent="24" name="type">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="80" parent="24" name="score">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="81" parent="24" name="competition_id">
+      <ColNames>competition_id</ColNames>
+    </index>
+    <index id="82" parent="24" name="location_id">
+      <ColNames>location_id</ColNames>
+    </index>
+    <key id="83" parent="24" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="84" parent="24" name="competition-question">
+      <ColNames>competition_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>competitions</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="85" parent="24" name="location-question">
+      <ColNames>location_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>location</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="86" parent="25" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="87" parent="25" name="competitor_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="88" parent="25" name="value">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="89" parent="25" name="competitor_id">
+      <ColNames>competitor_id</ColNames>
+    </index>
+    <key id="90" parent="25" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="91" parent="25" name="competitor-score">
+      <ColNames>competitor_id</ColNames>
+      <RefSchemaName>ar_quiz_db</RefSchemaName>
+      <RefTableName>competitors</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="92" parent="26" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="93" parent="26" name="name">
+      <Position>2</Position>
+      <DataType>varchar(256)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="94" parent="26" name="password_hash">
       <Position>3</Position>
       <DataType>varchar(256)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="85" parent="25" name="is_admin">
+    <column id="95" parent="26" name="is_admin">
       <Position>4</Position>
       <DataType>tinyint(1)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <key id="86" parent="25" name="PRIMARY">
+    <key id="96" parent="26" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="87" parent="26" name="id">
+    <column id="97" parent="27" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="88" parent="26" name="ssid">
+    <column id="98" parent="27" name="ssid">
       <Position>2</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="89" parent="26" name="mac">
+    <column id="99" parent="27" name="mac">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="90" parent="26" name="PRIMARY">
+    <key id="100" parent="27" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>

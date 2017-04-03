@@ -136,6 +136,36 @@ class CompetitionsDAO
         return $results;
     }
 
+    public function getCompetitionChart($competitionId) {
+        $stmt = $this->db->prepare("SELECT cmr.id, u.name, SUM(q.score) as score 
+                                    FROM competitors cmr 
+                                      JOIN users u on u.id=cmr.user_id 
+                                      JOIN answers_log a on a.competitor_id = cmr.id 
+                                      JOIN questions q on q.id = a.question_id 
+                                    WHERE cmr.competition_id=?
+                                    GROUP BY u.name
+                                    ORDER BY score DESC");
+        $stmt->bind_param("i", $competitionId);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($id, $name, $score);
+
+        $results = new \ArrayObject();
+
+        if($stmt->num_rows > 0) {
+
+            while($stmt -> fetch()) {
+                $chartItem = array("competitor_id" => $id);
+                $chartItem["name"] = $name;
+                $chartItem["score"] = $score;
+
+                $results->append($chartItem);
+            }
+        }
+
+        return $results;
+    }
+
     public function updateCompetitionDetails(Competition $competition) {
 
         $stmt = $this->db->prepare("UPDATE competitions SET name=?, description=? WHERE id=?");

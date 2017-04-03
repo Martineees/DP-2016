@@ -1,49 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1" >
+    android:layout_height="match_parent">
 
-    <TextView
-        style="@style/FormLabel"
-        android:text="@string/STR_EMAIL"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginLabelEmail"
-        android:layout_weight="0.00" />
+        android:layout_height="match_parent">
 
-    <EditText
-        style="@style/FormInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/loginName"
-        android:layout_weight="0.00" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        style="@style/FormLabel"
-        android:text="@string/STR_PASSWORD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginLabelPassword"
-        android:layout_weight="0.00" />
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/STR_EMAIL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginLabelEmail"
+                android:layout_weight="0.00" />
 
-    <EditText
-        style="@style/FormInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/loginPassword"
-        android:layout_weight="0.00" />
+            <EditText
+                style="@style/FormInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/loginName"
+                android:layout_weight="0.00" />
 
-    <Button
-        style="@style/MainBtn"
-        android:text="@string/STR_LOGIN"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/button"
-        android:onClick="login"/>
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/STR_PASSWORD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginLabelPassword"
+                android:layout_weight="0.00" />
+
+            <EditText
+                style="@style/FormInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/loginPassword"
+                android:layout_weight="0.00" />
+
+            <Button
+                style="@style/MainBtn"
+                android:text="@string/STR_LOGIN"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/button"
+                android:onClick="login"/>
+
+            <Button
+                style="@style/SecondaryBtnWhite"
+                android:text="@string/BTN_SIGN_UP_FOR_FREE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registrationPageBtn"
+                android:onClick="signUp"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -22,6 +22,7 @@
         <activity
             android:name=".Splash.SplashScreenActivity"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +31,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".QuestionsActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".QuestionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".CloudRecoActivity" />
-        <activity android:name=".CompetitionsActivity"></activity>
+        <activity
+            android:name=".CompetitionsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".AnswerActivity"></activity>
+        <activity android:name=".ChartActivity"></activity>
     </application>
 
 </manifest>

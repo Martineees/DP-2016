@@ -88,6 +88,21 @@ if(isset($_GET["id"])) {
                     </form>
                 </div>
             </div>
+            <div>
+                <h2>Chart</h2>
+                <div class="form-box">
+                    <form id="chartDetails" autocomplete="off">
+
+                        <div id="chart">
+
+                        </div>
+
+                        <div class="button-box">
+                            <input type="submit" value="Refresh" class="main-btn ic-af ic-save"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div id="footer"></div>

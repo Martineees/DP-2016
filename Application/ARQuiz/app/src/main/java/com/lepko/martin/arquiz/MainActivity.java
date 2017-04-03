@@ -30,13 +30,24 @@ public class MainActivity extends Activity {
 
         if(sessionManager.isLoggedIn())
             try {
-                onLoggedIn();
+                checkLoggedIn();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
     }
 
-    public void openCamera(View v) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            checkLoggedIn();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void explore(View v) {
         //Intent intent = new Intent(MainActivity.this, QuestionsActivity.class);
         //Intent intent = new Intent(MainActivity.this, CameraActivity.class);
         //Intent intent = new Intent(MainActivity.this, CloudRecoActivity.class);
@@ -51,12 +62,16 @@ public class MainActivity extends Activity {
         startActivityForResult(intent, LOGIN_STATE_REQUEST);
     }
 
-    private void onLoggedIn() throws JSONException {
-        User user = sessionManager.getUserData();
+    private void checkLoggedIn() throws JSONException {
+        if(sessionManager.isLoggedIn()) {
+            User user = sessionManager.getUserData();
 
-        if(user != null)
-            loginBtn.setText(user.getName());
-        else Log.e(TAG,"ERROR no user data");
+            if(user != null)
+                loginBtn.setText(user.getName());
+            else Log.e(TAG,"ERROR no user data");
+        } else {
+            loginBtn.setText(getString(R.string.STR_SIGN_IN));
+        }
     }
 
     private void onLoggedOut() {
@@ -70,7 +85,7 @@ public class MainActivity extends Activity {
         if(requestCode == LOGIN_STATE_REQUEST && resultCode == RESULT_OK) {
             if(sessionManager.isLoggedIn())
                 try {
-                    onLoggedIn();
+                    checkLoggedIn();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

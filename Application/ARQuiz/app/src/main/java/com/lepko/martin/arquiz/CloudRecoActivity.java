@@ -3,21 +3,31 @@ package com.lepko.martin.arquiz;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
+import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.lepko.martin.arquiz.CloudReco.CloudRecoRenderer;
+import com.lepko.martin.arquiz.Data.DataContainer;
+import com.lepko.martin.arquiz.Entities.Answer;
+import com.lepko.martin.arquiz.Entities.Question;
 import com.lepko.martin.arquiz.Utils.BitmapUtils;
 import com.lepko.martin.arquiz.Utils.OpenGLView;
 import com.lepko.martin.arquiz.Utils.Texture;
@@ -34,6 +44,8 @@ import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 // The main activity for the CloudRecoActivity sample.
@@ -92,6 +104,14 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
 
     private boolean mIsDroidDevice = false;
 
+    private DataContainer dataContainer;
+    private Question question;
+    private int questionId;
+    private int answerIndex;
+
+    private EditText input;
+    private Button answerBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -105,6 +125,14 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
 
         // Creates the GestureDetector listener for processing double tap
         mGestureDetector = new GestureDetector(this, new GestureListener());
+
+        Intent intent = getIntent();
+        dataContainer = DataContainer.getInstance();
+
+        input = null;
+        answerIndex = 0;
+        questionId = intent.getIntExtra("questionId", -1);
+        question = dataContainer.getQuestionById(questionId);
 
         mTextures = new Vector<Texture>();
         loadTextures();
@@ -154,7 +182,8 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
     // for rendering.
     private void loadTextures()
     {
-        Texture texture = Texture.loadTextureFromBitmap(BitmapUtils.drawTextToBitmap("Test"));
+        //Texture texture = Texture.loadTextureFromBitmap(BitmapUtils.drawTextToBitmap(getApplicationContext(), question));
+        Texture texture = Texture.loadTextureFromBitmap(BitmapUtils.drawStaticTextLayoutToBitmap(getApplicationContext(), question));
 
         mTextures.add(texture);
 
@@ -283,6 +312,122 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
         addLayout(true);
     }
 
+    private void showAnswersDialog() {
+        if(question != null) {
+
+            List<Answer> answers = question.getAnswers();
+
+            if(answers.size() == 1) {
+                showWriteableDialog();
+            } else {
+                showSingleChoiceDialog(answers);
+            }
+
+
+        }
+    }
+
+    private void showSingleChoiceDialog(List<Answer> answerList) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        ArrayList<String> answers = new ArrayList<>();
+
+        for(Answer answer : answerList) {
+            answers.add(answer.getName());
+        }
+        alertDialogBuilder.setTitle("Choose correct answer");
+        alertDialogBuilder.setSingleChoiceItems(answers.toArray(new CharSequence[answers.size()]), answerIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                answerIndex = i;
+            }
+        });
+        alertDialogBuilder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(getApplicationContext(), AnswerActivity.class);
+                intent.putExtra("questionId", question.getId());
+                intent.putExtra("questionType", question.getType());
+                intent.putExtra("answerIndex", answerIndex);
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void showWriteableDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("Write your answer");
+
+        input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        alertDialogBuilder.setView(input);
+
+        alertDialogBuilder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if(input.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Answer is required", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), AnswerActivity.class);
+                    intent.putExtra("questionId", question.getId());
+                    intent.putExtra("questionType", question.getType());
+                    intent.putExtra("userAnswer", input.getText().toString());
+
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void hideAnswerButton() {
+        if(answerBtn != null) {
+            if(answerBtn.getVisibility() == View.VISIBLE)
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        answerBtn.setVisibility(View.GONE);
+                    }
+                });
+        }
+    }
+
+    public void showAnswerButton() {
+        if(answerBtn != null) {
+            if(answerBtn.getVisibility() == View.GONE)
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        answerBtn.setVisibility(View.VISIBLE);
+                    }
+                });
+        }
+    }
+
     private void addLayout(boolean init) {
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -294,6 +439,14 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
 
         addContentView(mUILayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+
+        answerBtn = (Button) findViewById(R.id.answer_btn);
+        answerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAnswersDialog();
+            }
+        });
     }
 
     private String getStatusDescString(int code)
@@ -448,6 +601,8 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
             targetFinder.clearTrackables();
             targetFinder.startRecognition();
             //scanlineStart();
+
+            hideAnswerButton();
         }
     }
 
@@ -467,6 +622,9 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
 
             targetFinder.stop();
             //scanlineStop();
+
+            showAnswerButton();
+
         }
     }
 
@@ -691,13 +849,17 @@ public class CloudRecoActivity extends Activity implements VuforiaApplicationCon
 
                 Log.d(LOGTAG, "target id: " + result.getUniqueTargetId());
 
-                // Check if this target is suitable for tracking:
-                if (result.getTrackingRating() > 0)
-                {
-                    Trackable trackable = finder.enableTracking(result);
+                if(question.getTargetId().equals(result.getUniqueTargetId())) {
+                    // Check if this target is suitable for tracking:
+                    if (result.getTrackingRating() > 0)
+                    {
+                        Trackable trackable = finder.enableTracking(result);
 
-                    if (mExtendedTracking)
-                        trackable.startExtendedTracking();
+                        if(answerBtn != null) answerBtn.setVisibility(View.VISIBLE);
+
+                        if (mExtendedTracking)
+                            trackable.startExtendedTracking();
+                    }
                 }
             }
         }

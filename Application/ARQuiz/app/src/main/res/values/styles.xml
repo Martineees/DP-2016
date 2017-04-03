@@ -38,6 +38,15 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="SecondaryBtnWhite" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="FormInput" parent="@android:style/Widget.EditText">
         <item name="android:textSize">24sp</item>
         <item name="android:background">@color/colorWhite</item>
@@ -75,6 +84,71 @@
     <style name="QuestionCardDesc" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AnswerTitle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="AnswerResult" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <style name="Note" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChartPosition" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChartUser" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ChartPointsDesc" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChartPoints" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChartPositionW" parent="ChartPosition">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="ChartUserW" parent="ChartUser">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="ChartPointsDescW" parent="ChartPointsDesc">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="ChartPointsW" parent="ChartPoints">
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
 </resources>

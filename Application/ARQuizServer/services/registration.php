@@ -18,6 +18,8 @@ $db = $dbConnect->connect();
 
 $usersDAO = new UsersDAO($db);
 
+$response = array("error" => TRUE);
+
 if(isset($_POST['name_login']) && isset($_POST['password_login'])){
     $passowrdHash = password_hash($_POST['password_login'], PASSWORD_BCRYPT );
 
@@ -25,7 +27,15 @@ if(isset($_POST['name_login']) && isset($_POST['password_login'])){
 
     $result = $usersDAO->create($user);
 
-    echo $result;
+    if($result == -1) {
+        $response["error_msg"] = "User is already registered";
+    } else {
+        $response["error"] = FALSE;
+        $response["user_id"] = $result;
+    }
+
 } else {
-    echo -2;
+    $response["error_msg"] = "Missing required params";
 }
+
+echo json_encode($response);

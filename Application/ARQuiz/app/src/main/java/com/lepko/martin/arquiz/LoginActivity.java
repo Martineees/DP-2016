@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.lepko.martin.arquiz.Fragments.Login.LoginFragment;
 import com.lepko.martin.arquiz.Fragments.Login.LogoutFragment;
+import com.lepko.martin.arquiz.Fragments.Login.SignUpFragment;
 import com.lepko.martin.arquiz.Utils.Helper;
 import com.lepko.martin.arquiz.Utils.Services;
 import com.lepko.martin.arquiz.Utils.SessionManager;
@@ -94,6 +97,29 @@ public class LoginActivity extends FragmentActivity {
 
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i(TAG, "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i(TAG, "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
+    public void signUp(View v) {
+
+        SignUpFragment signUpFragment = new SignUpFragment();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.login_fragment_container, signUpFragment);
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void onLoginSuccess(JSONObject response) {

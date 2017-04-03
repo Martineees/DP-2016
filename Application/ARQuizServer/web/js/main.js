@@ -110,6 +110,53 @@ window.arquiz.login = window.arquiz.login || (function ($) {
     }
 })(jQuery);
 
+//REGISTRATION
+window.arquiz.registration = window.arquiz.registration || (function ($) {
+
+        var _register = function($form) {
+
+            var data = $form.serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "../services/registration.php",
+                dataType: "json",
+                data: data,
+                success: _onRegisterSuccess,
+                failed: _onRegisterFailed
+            });
+        };
+
+        var _onRegisterSuccess = function($response) {
+            if($response.error) _onRegisterFailed($response);
+            else {
+                window.location.href = "index.php";
+            }
+
+        };
+
+        var _onRegisterFailed = function($response) {
+            console.error($response);
+        };
+
+        var _bindBtns = function() {
+
+            $("#registerForm").submit(function(e){
+                e.preventDefault();
+
+                _register($(this));
+            });
+        };
+
+        var initialize = function() {
+            _bindBtns();
+        };
+
+        return {
+            initialize: initialize
+        }
+    })(jQuery);
+
 //DASHBOARD
 window.arquiz.dashboard = window.arquiz.dashboard || (function ($) {
 
@@ -409,10 +456,54 @@ window.arquiz.editCompetition = window.arquiz.editCompetition || (function ($) {
             console.error($response);
         };
 
+        var _bindChartForm = function() {
+            var $form = $("#chartDetails");
+
+            $form.submit(function(e) {
+                e.preventDefault();
+
+                _getChart();
+            });
+        };
+
+        var _getChart = function() {
+            var $container = $("#chart");
+            $container.empty();
+            arquiz.helper.addLoader($container);
+
+            var competitionId = arquiz.helper.getQueryParam("id");
+            var data = "id=" + competitionId;
+
+            $.ajax({
+                type: "POST",
+                url: "templates/chart_tmp.php",
+                data: data,
+                success: _getChartSuccess,
+                failed: _getChartFailed
+            });
+        };
+
+        var _getChartSuccess = function($response) {
+            var $container = $("#chart");
+            $container.empty();
+
+            if($response != null && $response != "" && $container != null) {
+                $container.append($response);
+            } else {
+                $container.append("No results");
+            }
+        };
+
+        var _getChartFailed = function($response) {
+            console.error($response);
+        };
+
         var initialize = function() {
             _bindBtns();
             _getQuestions();
+            _getChart();
             _bindCompetitionForm();
+            _bindChartForm();
         };
 
         return {
@@ -624,6 +715,9 @@ $(document).ready(function($) {
         switch(page) {
             case 'index.php':
                 window.arquiz.login.initialize();
+                break;
+            case 'register.php':
+                window.arquiz.registration.initialize();
                 break;
             case 'dashboard.php':
                 window.arquiz.dashboard.initialize();

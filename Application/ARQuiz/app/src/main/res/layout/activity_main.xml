@@ -38,9 +38,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_account_circle_white_24dp"
+                    android:drawablePadding="6dp"
                     android:id="@+id/loginBtn"
                     android:background="@color/transparent"
                     android:textColor="@color/colorWhite"
+                    android:textAlignment="textEnd"
                     android:onClick="login"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -83,7 +85,7 @@
                 android:drawablePadding="18dp"
                 android:textSize="24sp"
                 android:elevation="2dp"
-                android:onClick="openCamera"/>
+                android:onClick="explore"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

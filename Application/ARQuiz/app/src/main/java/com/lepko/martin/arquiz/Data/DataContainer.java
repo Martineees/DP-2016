@@ -1,6 +1,9 @@
 package com.lepko.martin.arquiz.Data;
 
+import android.util.Log;
+
 import com.lepko.martin.arquiz.Entities.Competition;
+import com.lepko.martin.arquiz.Entities.Competitor;
 import com.lepko.martin.arquiz.Entities.Question;
 
 import java.util.LinkedList;
@@ -14,12 +17,14 @@ public class DataContainer {
 
     private List<Competition> competitions;
     private List<Question> questions;
+    private Competition currentCompetition;
 
     private static DataContainer instance = null;
 
     private DataContainer() {
         competitions = new LinkedList<>();
         questions = new LinkedList<>();
+        currentCompetition = null;
     }
 
     public static DataContainer getInstance() {
@@ -57,6 +62,7 @@ public class DataContainer {
     }
 
     public void setQuestions(List<Question> questions) {
+        Log.i("DataContainer", questions.toString());
         this.questions = questions;
     }
 
@@ -84,5 +90,25 @@ public class DataContainer {
         }
 
         return result;
+    }
+
+    public List<Question> getQuestionsByLocation(int locationId, List<Integer> except) {
+        List<Question> result = new LinkedList<>();
+
+        for(Question q: questions) {
+            if(q.getLocation().getId() == locationId)
+                if(!except.contains(q.getId()))
+                    result.add(q);
+        }
+
+        return result;
+    }
+
+    public Competition getCurrentCompetition() {
+        return currentCompetition;
+    }
+
+    public void setCurrentCompetition(Competition currentCompetition) {
+        this.currentCompetition = currentCompetition;
     }
 }

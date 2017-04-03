@@ -39,16 +39,31 @@ public class CompetitionsActivity extends FragmentActivity {
         TextView headline2 = (TextView) findViewById(R.id.headline2);
         headline2.setText(getString(R.string.STR_COMPETITIONS_LIST));
 
-        FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.competitions_container);
+        FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.data_container);
 
         if(fragmentContainer != null) {
 
             if (savedInstanceState != null) return;
 
             competitionsFragment = new CompetitionsFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.competitions_container, competitionsFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.data_container, competitionsFragment).commit();
 
-            new CompetitionsAsyncTask().execute(Services.COMPETITIONS_URL());
+            callAsyncTasks();
+        }
+    }
+
+    public void callAsyncTasks() {
+        competitionsFragment.resetFragmentView();
+        new CompetitionsAsyncTask().execute(Services.COMPETITIONS_URL());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() == 0) {
+            callAsyncTasks();
         }
     }
 
@@ -58,7 +73,7 @@ public class CompetitionsActivity extends FragmentActivity {
         if (fm.getBackStackEntryCount() > 0) {
             Log.i(TAG, "popping backstack");
             fm.popBackStack();
-            new CompetitionsAsyncTask().execute(Services.COMPETITIONS_URL());
+            callAsyncTasks();
         } else {
             Log.i(TAG, "nothing on backstack, calling super");
             super.onBackPressed();

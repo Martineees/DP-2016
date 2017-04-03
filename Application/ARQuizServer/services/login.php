@@ -9,7 +9,11 @@
 require_once("../dbConnect.php");
 require_once("../entities/User.php");
 require_once("../dao/UsersDAO.php");
+require_once("../dao/CompetitorsDAO.php");
+require_once("../dao/CompetitionsDAO.php");
+require_once("../dao/AnswersLogDAO.php");
 
+use dao\CompetitorsDAO;
 use entities\User;
 use dao\UsersDAO;
 
@@ -17,6 +21,7 @@ $dbConnect = new DBConnect();
 $db = $dbConnect->connect();
 
 $usersDAO = new UsersDAO($db);
+$competitorsDAO = new CompetitorsDAO($db);
 
 $response = array("error" => TRUE);
 
@@ -31,6 +36,7 @@ if(isset($_POST['name_login']) && isset($_POST['password_login'])){
             $response["user"] = $user->getName();
             $response["is_admin"] = $user->getIsAdmin();
             $response["user_id"] = $user->getId();
+            $response["competitors"] = json_encode($competitorsDAO->getUserCompetitionJSONArray($user)->getArrayCopy());
 
             //create session for webpage
             if(isset($_POST['from_web']) && boolval($_POST['from_web'])) {
@@ -55,5 +61,5 @@ if(isset($_POST['name_login']) && isset($_POST['password_login'])){
 
 } else {
     $response["error_msg"] = "Missing email or password";
-    echo json_encode($response);;
+    echo json_encode($response);
 }

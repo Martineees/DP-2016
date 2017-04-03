@@ -4,26 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ProgressBar
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        tools:visibility="gone"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <WebView
-            android:id="@+id/competition_detail"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".8" />
+            android:layout_weight=".8">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/detailProgressBar"
+                tools:visibility="visible"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:id="@+id/target_image_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,10 +39,10 @@
 
             <Button
                 style="@style/PrimaryBtn"
-                android:text="@string/BTN_ENTER"
+                android:text="@string/BTN_SEARCH_TARGET"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/competition_enter"
+                android:id="@+id/search_target"
                 android:layout_centerInParent="true" />
         </RelativeLayout>
 

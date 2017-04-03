@@ -1,6 +1,8 @@
 package com.lepko.martin.arquiz.Fragments.Competition;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +14,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.lepko.martin.arquiz.Adapters.CompetitionsAdapter;
+import com.lepko.martin.arquiz.CompetitionsActivity;
+import com.lepko.martin.arquiz.Data.DataContainer;
 import com.lepko.martin.arquiz.Entities.Competition;
+import com.lepko.martin.arquiz.Entities.User;
+import com.lepko.martin.arquiz.QuestionsActivity;
 import com.lepko.martin.arquiz.R;
+import com.lepko.martin.arquiz.Utils.SessionManager;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -22,6 +31,8 @@ public class CompetitionsFragment extends ListFragment {
     private ProgressBar progressBar;
     private ListView listView;
     private CompetitionsAdapter competitionsAdapter;
+    private DataContainer dataContainer;
+    private SessionManager sessionManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,9 +45,16 @@ public class CompetitionsFragment extends ListFragment {
 
         progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
         listView = getListView();
+        dataContainer = DataContainer.getInstance();
+        sessionManager = new SessionManager(getContext());
     }
 
-
+    public void resetFragmentView() {
+        if(progressBar != null && listView != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
+    }
 
     public void setAdapter(Context context, List<Competition> competitions) {
         competitionsAdapter = new CompetitionsAdapter(context, competitions);
@@ -51,16 +69,40 @@ public class CompetitionsFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        CompetitionDetailFragment competitionDetailFragment = new CompetitionDetailFragment();
+        try {
+            if(isAlreadyInCompetition(position)) {
+                Intent intent = new Intent(getContext(), QuestionsActivity.class);
 
-        Bundle args = new Bundle();
-        args.putInt("itemIndex", position);
-        competitionDetailFragment.setArguments(args);
+                Competition competition = dataContainer.getCompetitionById((int) id);
+                dataContainer.setCurrentCompetition(competition);
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.competitions_container, competitionDetailFragment);
+                intent.putExtra("competitionId", competition.getId());
 
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+                startActivity(intent);
+            } else {
+                CompetitionDetailFragment competitionDetailFragment = new CompetitionDetailFragment();
+
+                Bundle args = new Bundle();
+                args.putInt("competitionId", (int) id);
+                competitionDetailFragment.setArguments(args);
+
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.data_container, competitionDetailFragment);
+
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isAlreadyInCompetition(int index) throws JSONException {
+        Competition competition = dataContainer.getCompetitionByIndex(index);
+        User user = sessionManager.getUserData();
+
+        if(user == null) return false;
+
+        return user.isInCompetition(competition.getId());
     }
 }

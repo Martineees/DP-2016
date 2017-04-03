@@ -16,7 +16,7 @@ public class PlaneObject extends MeshObject
 {
     // Data for drawing the 3D plane as overlay
     private static final double planeVertices[]  = {
-            -50f, -50f, 0.0f, 50f, -50f, 0.0f, 50f, 50f, 0.0f, -50f, 50f, 0.0f
+            -30f, -30f, 0.0f, 30f, -30f, 0.0f, 30f, 30f, 0.0f, -30f, 30f, 0.0f
     };
 
     private static final double planeTexcoords[] = {

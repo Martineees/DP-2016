@@ -24,7 +24,7 @@
 <body id="public-page">
     <div id="content">
         <div class="logo"></div>
-        <form>
+        <form id="registerForm" autocomplete="off">
             <div class="row">
                 <label for="nameLogin">Email</label>
                 <input type="text" name="name_login" id="nameLogin" required/>
@@ -34,7 +34,7 @@
                 <input type="password" name="password_login" id="passwordLogin" required/>
             </div>
             <div class="row">
-                <label for="passwordLoginRepeat">Password aqain</label>
+                <label for="passwordLoginRepeat">Password again</label>
                 <input type="password" name="password_login_repeat" id="passwordLoginRepeat" required/>
             </div>
             <input type="submit" value="Register" id="registerBtn" class="main-btn">

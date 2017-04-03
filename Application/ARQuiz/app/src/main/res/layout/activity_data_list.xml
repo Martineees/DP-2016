@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -48,10 +49,24 @@
         android:layout_weight=".75"
         android:background="@color/colorLightGrey">
 
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="normal"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
+            android:id="@+id/chartFloatingBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            app:backgroundTint="?attr/colorPrimaryDark"/>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/competitions_container">
+            android:id="@+id/data_container">
 
         </FrameLayout>
     </RelativeLayout>

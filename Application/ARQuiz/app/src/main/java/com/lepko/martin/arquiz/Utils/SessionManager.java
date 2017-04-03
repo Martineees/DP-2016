@@ -5,10 +5,15 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
+import com.lepko.martin.arquiz.Entities.Competitor;
 import com.lepko.martin.arquiz.Entities.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Martin on 24.2.2017.
@@ -47,6 +52,15 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void updateUserData(String userData) {
+        Log.d(TAG, "Updating user data");
+
+        if(isLoggedIn()) {
+            editor.putString(PREF_KEY_USER, userData);
+            editor.commit();
+        }
+    }
+
     public boolean isLoggedIn() {
         return sharedPreferences.getBoolean(PREF_KEY_LOGIN,false);
     }
@@ -57,7 +71,26 @@ public class SessionManager {
         String userJSON = sharedPreferences.getString(PREF_KEY_USER, "");
         if(!userJSON.isEmpty()) {
             JSONObject userObj = new JSONObject(userJSON);
-            user = new User(userObj.getString("user"), userObj.getInt("user_id"), userObj.getInt("is_admin") == 1);
+            List<Competitor> competitorList = new LinkedList<>();
+
+            JSONArray competitorsArray = new JSONArray(userObj.getString("competitors"));
+
+            for(int i = 0; i < competitorsArray.length(); i++) {
+                JSONObject obj = competitorsArray.getJSONObject(i);
+
+                List<Integer> answeredQuestions = new LinkedList<>();
+                JSONArray answeredQuestionsArray = new JSONArray(obj.getString("answers_list"));
+
+                for(int j=0; j < answeredQuestionsArray.length(); j++) {
+                    JSONObject answerObj = answeredQuestionsArray.getJSONObject(j);
+                    answeredQuestions.add(answerObj.getInt("questionId"));
+                }
+
+                Competitor competitor = new Competitor(obj.getInt("id"), obj.getInt("competition_id"), answeredQuestions);
+                competitorList.add(competitor);
+            }
+
+            user = new User(userObj.getString("user"), userObj.getInt("user_id"), userObj.getInt("is_admin") == 1, competitorList);
 
         } else Log.d(TAG,"Empty userJSON data");
 

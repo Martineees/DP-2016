@@ -42,6 +42,7 @@
 
     <string name="STR_EMAIL">Email</string>
     <string name="STR_PASSWORD">Password</string>
+    <string name="STR_PASSWORD_REPEAT">Password again</string>
     <string name="STR_LOGIN">LOGIN</string>
     <string name="STR_SIGN_IN">Sign in</string>
     <string name="STR_LOGOUT">LOGOUT</string>
@@ -54,4 +55,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="BTN_ENTER">Enter</string>
+    <string name="BTN_SEARCH_TARGET">Search target</string>
+    <string name="BTN_ANSWER">Answer</string>
+    <string name="STR_ANSWER_IS">Your answer is</string>
+    <string name="STR_UNKNOW_ANSWER">*????*</string>
+    <string name="STR_NEXT_QUESTION">Next Question</string>
+    <string name="STR_LOGIN_REQUIRED">You need to be logged in to achieve answer points</string>
+    <string name="STR_ANSWER_SCORE">You achieve %1$d points</string>
+    <string name="STR_ANSWER_RESULT_C">Correct !</string>
+    <string name="STR_ANSWER_RESULT_W">Wrong !</string>
+    <string name="STR_CHART">Chart</string>
+    <string name="STR_CHART_DESC">Actual chart of competition</string>
+    <string name="STR_CHART_PTS">pts</string>
+    <string name="STR_CHART_POSITION">%1$d.</string>
+    <string name="BTN_SIGN_UP_FOR_FREE">Sign up for free</string>
+    <string name="BTN_SIGN_UP">Sign up</string>
+
+    <string name="STR_QUESTION_WRITABLE">This is writable question</string>
 </resources>

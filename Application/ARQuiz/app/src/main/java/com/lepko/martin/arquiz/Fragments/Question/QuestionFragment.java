@@ -16,6 +16,7 @@ import com.lepko.martin.arquiz.Adapters.QuestionsAdapter;
 import com.lepko.martin.arquiz.Entities.Competition;
 import com.lepko.martin.arquiz.Entities.Question;
 import com.lepko.martin.arquiz.Fragments.Competition.CompetitionDetailFragment;
+import com.lepko.martin.arquiz.QuestionsActivity;
 import com.lepko.martin.arquiz.R;
 
 import java.util.List;
@@ -37,9 +38,17 @@ public class QuestionFragment extends ListFragment {
 
         progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
         listView = getListView();
+
+        //QuestionsActivity activity = (QuestionsActivity) getActivity();
+        //activity.callAsyncTasks();
     }
 
-
+    public void resetFragmentView() {
+        if(progressBar != null && listView != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
+    }
 
     public void setAdapter(Context context, List<Question> questions) {
         questionsAdapter = new QuestionsAdapter(context, questions);
@@ -54,14 +63,14 @@ public class QuestionFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        CompetitionDetailFragment competitionDetailFragment = new CompetitionDetailFragment();
+        QuestionDetailFragment questionDetailFragment = new QuestionDetailFragment();
 
         Bundle args = new Bundle();
-        args.putInt("itemIndex", position);
-        competitionDetailFragment.setArguments(args);
+        args.putInt("questionId", (int) id);
+        questionDetailFragment.setArguments(args);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.competitions_container, competitionDetailFragment);
+        fragmentTransaction.replace(R.id.data_container, questionDetailFragment);
 
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
