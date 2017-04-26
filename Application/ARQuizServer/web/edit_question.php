@@ -111,7 +111,7 @@ if(isset($_GET["id"])) {
                             <input type="file" name="image" id="image" accept="image/jpeg, image/png" required />
                             <label for="image">Choose a file</label>
                         </div>
-                        <label for="width">Width in real world</label>
+                        <label for="width">Image width in real world (mm)</label>
                         <input type="number" id="width" name="width" required>
                         <input type="hidden" name="target_name" id="target_name" />
                         <input type="hidden" name="question_id" value="<?php echo $question->getId(); ?>" />

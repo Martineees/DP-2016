@@ -20,7 +20,15 @@ class PostNewTarget{
 	
 	public function VuforiaPostNewTarget($targetName, $imageBase64, $width){
 		
-		$this->jsonRequestObject = json_encode( array( 'width'=>$width , 'name'=>$targetName , 'image'=>$imageBase64 , 'application_metadata'=>base64_encode("Vuforia test metadata") , 'active_flag'=>1 ) );
+		$this->jsonRequestObject = json_encode(
+			array(
+				'width'	=>	$width ,
+				'name'	=>	$targetName ,
+				'image'	=>	$imageBase64 ,
+				'application_metadata'	=>	base64_encode("Vuforia metadata") ,
+				'active_flag'	=>	1
+			)
+		);
 
 		$result = $this->execPostNewTarget();
 
@@ -44,7 +52,7 @@ class PostNewTarget{
 
 
 		try {
-
+			// Finally send request
 			$response = $this->request->send();
 
 			if (200 == $response->getStatus() || 201 == $response->getStatus() ) {

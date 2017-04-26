@@ -33,7 +33,7 @@ if(isset($_POST["id"])) {
             <input type="file" name="image" id="image" accept="image/jpeg, image/png" required />
             <label for="image">Choose a file</label>
         </div>
-        <label for="width">Image width in real world</label>
+        <label for="width">Image width in real world (mm)</label>
         <input type="number" name="width" id="width" required />
         <label for="type">Question type</label>
         <select id="type" name="type" required>

@@ -718,3 +718,24 @@ tr:first-child {
 #private-page .hide {
     display: none;
 }
+
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(2, 119, 189, .7);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(2, 119, 189, .5);
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active{
+    background: rgba(2, 119, 189, 1);
+}

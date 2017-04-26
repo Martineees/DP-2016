@@ -3,8 +3,10 @@ package com.lepko.martin.arquiz.Fragments.Competition;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.lepko.martin.arquiz.Adapters.CompetitionsAdapter;
 import com.lepko.martin.arquiz.CompetitionsActivity;
@@ -20,6 +23,7 @@ import com.lepko.martin.arquiz.Entities.Competition;
 import com.lepko.martin.arquiz.Entities.User;
 import com.lepko.martin.arquiz.QuestionsActivity;
 import com.lepko.martin.arquiz.R;
+import com.lepko.martin.arquiz.Utils.PermissionManager;
 import com.lepko.martin.arquiz.Utils.SessionManager;
 
 import org.json.JSONException;
@@ -71,14 +75,11 @@ public class CompetitionsFragment extends ListFragment {
 
         try {
             if(isAlreadyInCompetition(position)) {
-                Intent intent = new Intent(getContext(), QuestionsActivity.class);
-
-                Competition competition = dataContainer.getCompetitionById((int) id);
-                dataContainer.setCurrentCompetition(competition);
-
-                intent.putExtra("competitionId", competition.getId());
-
-                startActivity(intent);
+                if(PermissionManager.hasPermissions(getActivity(), PermissionManager.PERMISSIONS_GROUP_LOCATION)) {
+                    //Continue
+                } else {
+                    requestPermissions(PermissionManager.PERMISSIONS_GROUP_LOCATION, PermissionManager.PERMISSION_REQUEST_LOCATION);
+                }
             } else {
                 CompetitionDetailFragment competitionDetailFragment = new CompetitionDetailFragment();
 
@@ -104,5 +105,18 @@ public class CompetitionsFragment extends ListFragment {
         if(user == null) return false;
 
         return user.isInCompetition(competition.getId());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == PermissionManager.PERMISSION_REQUEST_LOCATION) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(),"Permission was granted.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(),"You do not have needed permissions.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

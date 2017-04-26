@@ -2,9 +2,11 @@ package com.lepko.martin.arquiz.Fragments.Question;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.lepko.martin.arquiz.Entities.Question;
 import com.lepko.martin.arquiz.QuestionsActivity;
 import com.lepko.martin.arquiz.R;
 import com.lepko.martin.arquiz.Utils.Helper;
+import com.lepko.martin.arquiz.Utils.PermissionManager;
 import com.lepko.martin.arquiz.Utils.Services;
 
 import java.io.UnsupportedEncodingException;
@@ -86,12 +89,29 @@ public class QuestionDetailFragment extends Fragment {
     }
 
     public void searchTarget(View v) {
-        Intent intent = new Intent(getContext(), CloudRecoActivity.class);
-        intent.putExtra("questionId", dataContainer.getQuestionById(questionid).getId());
-        startActivity(intent);
+        if(PermissionManager.hasPermissions(getActivity(), PermissionManager.PERMISSIONS_GROUP_CAMERA)) {
+            Intent intent = new Intent(getContext(), CloudRecoActivity.class);
+            intent.putExtra("questionId", dataContainer.getQuestionById(questionid).getId());
+            startActivity(intent);
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.popBackStack();
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.popBackStack();
+        } else {
+            requestPermissions(PermissionManager.PERMISSIONS_GROUP_CAMERA, PermissionManager.PERMISSION_REQUEST_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == PermissionManager.PERMISSION_REQUEST_CAMERA) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(),"Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(),"You do not have needed permissions.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private class getTargetAsync extends BitmapAsyncTask {
